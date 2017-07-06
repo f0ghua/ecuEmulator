@@ -8,7 +8,7 @@ TEMPLATE = subdirs
 CONFIG += ordered
 SUBDIRS = \
     libCustomWidgets \
-#    libQtDbc \
+    libQtDbc \
     main \
 
 RESOURCES += \

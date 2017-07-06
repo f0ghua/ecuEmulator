@@ -1,6 +1,6 @@
 #include "aboutdialog.h"
 
-#define APP_NAME 	"CANTestTool"
+#define APP_NAME 	"Tiny ECUSimulator"
 #define APP_VERSION	"0.1.01"
 
 const QDate g_buildDate = QLocale( QLocale::C ).toDate( QString( __DATE__ ).simplified(), "MMM d yyyy");
@@ -46,7 +46,7 @@ AboutDialog::AboutDialog(QWidget *parent) :
 	m_labelLogo->setMinimumSize(QSize(64, 64));
 	m_labelLogo->setMaximumSize(QSize(64, 64));
 	m_labelLogo->setText(QStringLiteral(""));
-	m_labelLogo->setPixmap(QPixmap(QString::fromUtf8(":/images/carToy_64x64.png")));
+    m_labelLogo->setPixmap(QPixmap(QString::fromUtf8(":/images/ecuSimulator.png")));
 	m_labelLogo->setScaledContents(true);
 	m_labelLogo->setAlignment(Qt::AlignCenter);
 	m_horizontalLayout->addWidget(m_labelLogo);

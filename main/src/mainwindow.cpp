@@ -45,14 +45,14 @@ void MainWindow::cusomizePreference()
     }
     qApp->setFont(font);
 
-/*
+
     // set the window size
-    int h = availableGeometry.height() * 3 / 4;
+    int h = availableGeometry.height() * 2 / 4;
     int w = h * 850 / 600;
     resize(w, h);
     setIconSize(QSize(16, 16));
-*/
-    QFile file("ecuSimulator.qss");
+
+    QFile file(":/ecuSimulator.qss");
     bool bOpened = file.open(QFile::ReadOnly);
     //assert (bOpened == true);
     if (bOpened) {
@@ -68,6 +68,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    ui->actionDevice_Config->setDisabled(true);
     ui->slSigDI_KL_58xd->setTracking(false);
     ui->slSigDI_KL_58xs->setTracking(false);
     cusomizePreference();
@@ -145,14 +146,18 @@ void MainWindow::processReceivedMessages()
 #ifndef F_NO_DEBUG
             qDebug() << tr("reset base time to %1").arg(m_baseTime);
 #endif
+#ifdef LOG_ENABLE
             // start log
             m_logger->startLog(g_logFileName, g_logFileMaxSize, g_logFileMaxBkpNumber);
+#endif
         }
 
 #ifndef F_NO_DEBUG
         //qDebug() << frame.toString(m_baseTime);
 #endif
+#ifdef LOG_ENABLE
         m_logger->writeFrame(frame, m_baseTime);
+#endif
     }
 }
 

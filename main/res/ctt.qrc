@@ -7,5 +7,7 @@
         <file>images/cbUnchecked.png</file>
         <file>images/rbChecked.png</file>
         <file>images/rbUnchecked.png</file>
+        <file>ecuSimulator.qss</file>
+        <file>images/ecuSimulator.png</file>
     </qresource>
 </RCC>
