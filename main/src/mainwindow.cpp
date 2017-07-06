@@ -45,10 +45,20 @@ void MainWindow::cusomizePreference()
     }
     qApp->setFont(font);
 
+/*
+    // set the window size
     int h = availableGeometry.height() * 3 / 4;
     int w = h * 850 / 600;
     resize(w, h);
     setIconSize(QSize(16, 16));
+*/
+    QFile file("ecuSimulator.qss");
+    bool bOpened = file.open(QFile::ReadOnly);
+    //assert (bOpened == true);
+    if (bOpened) {
+        QString styleSheet = QLatin1String(file.readAll());
+        qApp->setStyleSheet (styleSheet);
+    }
 
     return;
 }
@@ -58,12 +68,13 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    //cusomizePreference();
+    ui->slSigDI_KL_58xd->setTracking(false);
+    ui->slSigDI_KL_58xs->setTracking(false);
+    cusomizePreference();
     m_logger = new XFrameLogger(this);
     m_busMgr = new XBusMgr(this);
     m_connectDialog = new ConnectDialog(m_busMgr, this);
     m_baseTime = -1;
-    initTxMessages();
 
     connect(m_busMgr, &XBusMgr::sigUpdateDeviceList, m_connectDialog, &ConnectDialog::updateDeviceList);
     connect(m_busMgr, &XBusMgr::sigUpdateDeviceConnState, m_connectDialog, &ConnectDialog::updateDeviceConnState);
@@ -86,6 +97,10 @@ MainWindow::MainWindow(QWidget *parent) :
     m_senderThread->start();
     
     emit setSenderPriority();
+
+    initTxMessages();
+
+/*
     emit cmd2Sender("en@1#id@0x061#bus@0#data@00112233#tr@1000ms");
     emit cmd2Sender("en@1#id@0x062#bus@0#data@00112233#tr@100ms#mo@D0=D0^0x01");
     emit cmd2Sender("en@1#id@0x063#bus@0#data@00112233#tr@10ms#mo@D0=D0^0x01");
@@ -93,7 +108,7 @@ MainWindow::MainWindow(QWidget *parent) :
     QTimer::singleShot(15000, this, [=](){
         emit cmd2Sender("id@0x061#data@001122334455");
     });
-
+*/
     return;
 }
 
@@ -141,9 +156,120 @@ void MainWindow::processReceivedMessages()
     }
 }
 
+int MainWindow::buildPeriodMessageEx(PeriodMessage *pPm, quint32 msgId, int bus, int enable)
+{
+    Vector::DBC::Network *pNet = m_busMgr->getDbcNetwork(bus);
+    if (pNet == NULL)
+        return -1;
+    Vector::DBC::Message *pMsg = pNet->findMsgByID(msgId);
+    if (pMsg == NULL)
+        return -1;
+
+    pPm->enable = enable;
+    pPm->header = bus;
+    pPm->id = pMsg->id;
+    QByteArray &payload = pPm->data;
+    QByteArray ba(pMsg->size, 0);
+    payload.append(ba);
+
+    QMap<QString, Vector::DBC::Signal>::const_iterator end = pMsg->m_signals.constEnd();
+    for (QMap<QString, Vector::DBC::Signal>::const_iterator ci = pMsg->m_signals.constBegin();
+            ci != end;
+            ci++) {
+        const Vector::DBC::Signal *pSignal = &ci.value();
+        bool ok;
+        double rawValue = DBCHelper::getDefaultSignalValue(pSignal, pNet, &ok);
+        pSignal->encode((uint8_t *)payload.data(), rawValue);
+    }
+    pPm->period =
+        DBCHelper::getMessageCycleTime(pMsg, pNet, (quint8 *)payload.data());
+
+    pPm->pMsg = pMsg;
+
+    return 0;
+}
+
+void MainWindow::updateSendingData(const PeriodMessage &pm)
+{
+    QString cmdStr = QString("en@%1#id@%2#bus@%3#data@%4#tr@%5ms").\
+        arg(pm.enable).\
+        arg(pm.id).\
+        arg(pm.header).\
+        arg(pm.data.toHex().constData()).\
+        arg(pm.period);
+
+    emit cmd2Sender(cmdStr);
+}
+
+void MainWindow::updateSendingDataQuick(const PeriodMessage &pm)
+{
+    QString cmdStr = QString("en@%1#id@%2#bus@%3#data@%4").\
+        arg(pm.enable).\
+        arg(pm.id).\
+        arg(pm.header).\
+        arg(pm.data.toHex().constData());
+
+    emit cmd2Sender(cmdStr);
+}
+
 void MainWindow::initTxMessages()
 {
+    PeriodMessage pm;
+    
+    if (0 == buildPeriodMessageEx(&pm, 0x3C0)) {
+        txMessages.insert(pm.id, pm);
+        updateSendingData(pm);
+    }
+    
+    if (0 == buildPeriodMessageEx(&pm, 0x663)) {
+        txMessages.insert(pm.id, pm);
+        updateSendingData(pm);
+    }
 
+    if (0 == buildPeriodMessageEx(&pm, 0x3DA)) {
+        txMessages.insert(pm.id, pm);
+        updateSendingData(pm);
+    }
+
+    if (0 == buildPeriodMessageEx(&pm, 0x3DB)) {
+        txMessages.insert(pm.id, pm);
+        updateSendingData(pm);
+    }
+
+    if (0 == buildPeriodMessageEx(&pm, 0x5F0)) {
+        txMessages.insert(pm.id, pm);
+        updateSendingData(pm);
+    }
+}
+
+int MainWindow::updateSignalValue(quint32 id, QString signalName, double phyValue)
+{
+    PeriodMessage *pPm;
+    if ((pPm = getPMsg(id)) == NULL)
+        return -1;
+
+    QByteArray &data = pPm->data;
+    if (pPm->pMsg != NULL) {
+        QMap<QString, Vector::DBC::Signal>::iterator it = pPm->pMsg->m_signals.find(signalName);
+        if (it == pPm->pMsg->m_signals.end())
+            return -1;
+
+        Vector::DBC::Signal *pSignal = &it.value();
+        double rawValue = pSignal->physicalToRawValue(phyValue);
+        pSignal->encode((quint8 *)data.data(), rawValue);
+    }
+
+    updateSendingDataQuick(*pPm);
+    return 0;
+}
+
+PeriodMessage *MainWindow::getPMsg(quint32 id)
+{
+    QMap<quint32, PeriodMessage>::iterator ci = txMessages.find(id);
+    if (ci == txMessages.end()) {
+        return NULL;
+    }
+    return &ci.value();
 }
 
 void MainWindow::on_actionConnect_triggered()
@@ -170,3 +296,133 @@ void MainWindow::on_actionAbout_triggered()
     AboutDialog dialog(this);
     dialog.exec();
 }
+
+void MainWindow::updateEnableValue(QCheckBox *cb, quint32 id)
+{
+    quint8 enable;
+    if (cb->isChecked()) {
+        enable = 1;
+    } else {
+        enable = 0;
+    }
+
+    PeriodMessage *pPm;
+    if ((pPm = getPMsg(id)) == NULL)
+        return;
+    pPm->enable = enable;
+    updateSendingDataQuick(*pPm);
+}
+
+void MainWindow::on_cbEnable0x3C0_clicked()
+{
+    updateEnableValue(ui->cbEnable0x3C0, 0x3C0);
+}
+
+void MainWindow::on_cbSigZAS_Kl_S_clicked()
+{
+    double phyValue = 0;
+    if (ui->cbSigZAS_Kl_S->isChecked()) {
+        phyValue = 1;
+    } else {
+        phyValue = 0;
+    }
+
+    updateSignalValue(0x3C0, "ZAS_Kl_S", phyValue);
+}
+
+void MainWindow::on_cbSigZAS_Kl_15_clicked()
+{
+    double phyValue = 0;
+    if (ui->cbSigZAS_Kl_15->isChecked()) {
+        phyValue = 1;
+    } else {
+        phyValue = 0;
+    }
+
+    updateSignalValue(0x3C0, "ZAS_Kl_15", phyValue);
+}
+
+void MainWindow::on_cbEnable0x663_clicked()
+{
+    updateEnableValue(ui->cbEnable0x663, 0x663);
+}
+
+void MainWindow::on_cbSigBEM_MMI_Vorwarnung_clicked()
+{
+    double phyValue = 0;
+    if (ui->cbSigBEM_MMI_Vorwarnung->isChecked()) {
+        phyValue = 1;
+    } else {
+        phyValue = 0;
+    }
+
+    updateSignalValue(0x663, "BEM_MMI_Vorwarnung", phyValue);
+}
+
+void MainWindow::on_coSigBEM_02_Abschaltstufen_currentIndexChanged(int index)
+{
+    double phyValue = 0;
+    phyValue = index; //ui->coSigBEM_02_Abschaltstufen->currentIndex();
+    updateSignalValue(0x663, "BEM_02_Abschaltstufen", phyValue);
+}
+
+void MainWindow::on_cbEnable0x3DB_clicked()
+{
+    updateEnableValue(ui->cbEnable0x3DB, 0x3DB);
+}
+
+void MainWindow::on_cbSigBCM_Rueckfahrlicht_Anf_clicked()
+{
+    double phyValue = 0;
+    if (ui->cbSigBCM_Rueckfahrlicht_Anf->isChecked()) {
+        phyValue = 1;
+    } else {
+        phyValue = 0;
+    }
+
+    updateSignalValue(0x3DB, "BCM_Rueckfahrlicht_Anf", phyValue);
+}
+
+void MainWindow::on_cbEnable0x3DA_clicked()
+{
+    updateEnableValue(ui->cbEnable0x3DA, 0x3DA);
+}
+
+void MainWindow::on_cbEnable0x5F0_clicked()
+{
+    updateEnableValue(ui->cbEnable0x5F0, 0x5F0);
+}
+
+void MainWindow::on_slSigDI_KL_58xd_valueChanged(int value)
+{
+    double phyValue = 0;
+    phyValue = value;
+    updateSignalValue(0x5F0, "DI_KL_58xd", phyValue);
+}
+
+void MainWindow::on_sbSigDI_KL_58xd_editingFinished()
+{
+    double phyValue = 0;
+    phyValue = ui->sbSigDI_KL_58xd->value();
+    updateSignalValue(0x5F0, "DI_KL_58xd", phyValue);
+}
+
+void MainWindow::on_slSigDI_KL_58xs_valueChanged(int value)
+{
+    double phyValue = 0;
+    phyValue = value;
+    updateSignalValue(0x5F0, "DI_KL_58xs", phyValue);
+}
+
+void MainWindow::on_sbSigDI_KL_58xs_editingFinished()
+{
+    double phyValue = 0;
+    phyValue = ui->sbSigDI_KL_58xs->value();
+    updateSignalValue(0x5F0, "DI_KL_58xs", phyValue);
+}
+
+
+
+
+
+

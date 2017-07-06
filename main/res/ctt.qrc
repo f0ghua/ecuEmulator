@@ -3,5 +3,9 @@
         <file>images/green.png</file>
         <file>images/red.png</file>
         <file>fonts/LucidaTypewriterRegular.ttf</file>
+        <file>images/cbChecked.png</file>
+        <file>images/cbUnchecked.png</file>
+        <file>images/rbChecked.png</file>
+        <file>images/rbUnchecked.png</file>
     </qresource>
 </RCC>

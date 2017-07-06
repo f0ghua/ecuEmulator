@@ -7,8 +7,8 @@
 #include <QFileInfo>
 #include <QProcess>
 
-static const char g_dbcNameCAN1[] = "./CIDD.dbc";
-static const char g_dbcNameCAN2[] = "./TM.dbc";
+static const char g_dbcNameCAN1[] = "./CAN1.dbc";
+static const char g_dbcNameCAN2[] = "./CAN2.dbc";
 
 XBusMgr::XBusMgr(QObject *parent) : QObject(parent)
 {
