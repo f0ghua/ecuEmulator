@@ -89,7 +89,7 @@ FORMS    += \
 RESOURCES += \
     res/ctt.qrc
 
-#RC_FILE = ecuSimulator.rc
+RC_FILE = ecuSimulator.rc
 DESTDIR += ../output/
 INCLUDEPATH += src ../libQtDbc/inc ../libCustomWidgets libftd
 LIBS+= -L../output/ -lQtDbc -lCustomWidgets
