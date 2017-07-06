@@ -1,0 +1,46 @@
+
+QCheckBox::indicator { 
+    width: 30px;
+    height: 30px;
+}
+
+QCheckBox::indicator::unchecked {
+    image: url(:/images/rbUnchecked.png);
+}
+
+QCheckBox::indicator::checked { 
+    image: url(:/images/rbChecked.png);
+}
+
+QCheckBox{
+    spacing: 5px;
+    font-size: 15px;
+}
+
+QCheckBox#cbEnable0x3C0::indicator, 
+QCheckBox#cbEnable0x663::indicator,
+QCheckBox#cbEnable0x3DB::indicator, 
+QCheckBox#cbEnable0x3DA::indicator,
+QCheckBox#cbEnable0x5F0::indicator 
+{ 
+    width: 50px; /* 26 */
+    height: 30px; /* 50 */
+}
+
+QCheckBox#cbEnable0x3C0::indicator::unchecked, 
+QCheckBox#cbEnable0x663::indicator::unchecked,
+QCheckBox#cbEnable0x3DB::indicator::unchecked, 
+QCheckBox#cbEnable0x3DA::indicator::unchecked,
+QCheckBox#cbEnable0x5F0::indicator::unchecked
+{   
+    image: url(:/images/cbUnchecked.png);
+}
+
+QCheckBox#cbEnable0x3C0::indicator::checked, 
+QCheckBox#cbEnable0x663::indicator::checked,
+QCheckBox#cbEnable0x3DB::indicator::checked, 
+QCheckBox#cbEnable0x3DA::indicator::checked,
+QCheckBox#cbEnable0x5F0::indicator::checked
+{ 
+    image: url(:/images/cbChecked.png);
+}
