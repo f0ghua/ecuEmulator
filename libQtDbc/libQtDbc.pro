@@ -66,7 +66,7 @@ unix {
 }
 
 INCLUDEPATH += ./inc
-DESTDIR += ../output/libQtDbc
+DESTDIR += ../output
 
 DISTFILES += \
     .tags \

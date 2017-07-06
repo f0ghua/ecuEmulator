@@ -5,9 +5,11 @@
 #-------------------------------------------------
 
 TEMPLATE = subdirs
-SUBDIRS = main
-#SUBDIRS += libQtDbc
-#main.depends = libQtDbc
+CONFIG += ordered
+SUBDIRS = \
+    libCustomWidgets \
+#    libQtDbc \
+    main \
 
 RESOURCES += \
     main/ui/ctt.qrc

@@ -91,6 +91,6 @@ RESOURCES += \
 
 #RC_FILE = ecuSimulator.rc
 DESTDIR += ../output/
-INCLUDEPATH += src ../libQtDbc/inc libftd
-LIBS+= -L../output/libQtDbc -lQtDbc
+INCLUDEPATH += src ../libQtDbc/inc ../libCustomWidgets libftd
+LIBS+= -L../output/ -lQtDbc -lCustomWidgets
 
