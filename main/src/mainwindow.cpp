@@ -182,6 +182,7 @@ int MainWindow::buildPeriodMessageEx(PeriodMessage *pPm, quint32 msgId, int bus,
     pPm->id = pMsg->id;
     QByteArray &payload = pPm->data;
     QByteArray ba(pMsg->size, 0);
+    payload.clear();
     payload.append(ba);
 
     QMap<QString, Vector::DBC::Signal>::const_iterator end = pMsg->m_signals.constEnd();

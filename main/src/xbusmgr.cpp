@@ -53,9 +53,11 @@ void XBusMgr::initHAL(int mode)
 {
     //mode = ((mode == 0) ? checkBusEngine() : mode);
 
-    //checkBusEngine();
-    //registerHAL(new BusEngine(this));
-    registerHAL(new FtWorker(this));
+    if (0 == checkBusEngine()) {
+        registerHAL(new BusEngine(this));
+    } else {
+        registerHAL(new FtWorker(this));
+    }
     //registerHAL(new SerialWorker(this));
 
     setupSig(m_hals[mode]);
@@ -68,7 +70,7 @@ void XBusMgr::setupSig(HAL *hal)
         disconnect(this, &XBusMgr::sigOpenDevice, m_currentHal, &HAL::sigOpenDevice);
         disconnect(this, &XBusMgr::sigCloseDevice, m_currentHal, &HAL::sigCloseDevice);
         disconnect(this, &XBusMgr::sigSendRawData, m_currentHal, &HAL::sendRawData);
-        //disconnect(this, &XBusMgr::sendRawFrame, m_currentHal, &HAL::sendFrame);
+        disconnect(this, &XBusMgr::sendRawFrame, m_currentHal, &HAL::sendFrame);
         disconnect(m_currentHal, &HAL::cmdFrameResponse, this, &XBusMgr::handleCmdResponse);
         disconnect(m_currentHal, &HAL::updateDeviceList, this, &XBusMgr::updateDeviceList);
         disconnect(m_currentHal, &HAL::updateDeviceConnState, this, &XBusMgr::updateDeviceConnState);
@@ -145,7 +147,7 @@ int XBusMgr::checkBusEngine()
 	if(!resut.contains(exe)) {
 		if(checkFileExist(path1 + exe) == false) {
 			if(checkFileExist(path2 + exe) == false)
-				ret = 1;	
+                ret = -1;
 		}
 	}
 #endif
