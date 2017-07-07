@@ -170,7 +170,8 @@ void XFrameSender::processSendingData(qint64 elapsed)
                 trigger->currCount++;
                 doModifiers(i);
 #ifndef F_NO_DEBUG
-                //qDebug() << tr("About to try to send frame id = %1").arg(sendData->id(), 3, 16, QChar('0'));
+                qDebug() << tr("About to try to send frame id = %1, bus = %2").\
+                    arg(sendData->id(), 3, 16, QChar('0')).arg(sendData->bus());
 #endif
                 emit m_busMgr->sendRawFrame(&m_sendingData[i]);
                 if (trigger->ID > 0) trigger->readyCount = false; //reset flag if this is a timed ID trigger

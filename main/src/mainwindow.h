@@ -85,6 +85,7 @@ private:
     Ui::MainWindow *ui;
     static MainWindow *m_selfRef;
     XBusMgr *m_busMgr = NULL;
+    int m_workingBus = 0;
     XFrameLogger *m_logger = NULL;    
     XFrameSender *m_sender = NULL;
     QThread *m_senderThread = NULL;

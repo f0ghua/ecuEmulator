@@ -72,15 +72,22 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->slSigDI_KL_58xd->setTracking(false);
     ui->slSigDI_KL_58xs->setTracking(false);
     cusomizePreference();
-    m_logger = new XFrameLogger(this);
+
     m_busMgr = new XBusMgr(this);
+    if ((m_busMgr->getDbcNetwork(0) == NULL) &&
+            (m_busMgr->getDbcNetwork(1) != NULL)) {
+        m_workingBus = 1;
+    }
     m_connectDialog = new ConnectDialog(m_busMgr, this);
-    m_baseTime = -1;
 
     connect(m_busMgr, &XBusMgr::sigUpdateDeviceList, m_connectDialog, &ConnectDialog::updateDeviceList);
     connect(m_busMgr, &XBusMgr::sigUpdateDeviceConnState, m_connectDialog, &ConnectDialog::updateDeviceConnState);
     connect(m_busMgr, &XBusMgr::frameReceived, this, &MainWindow::processReceivedMessages);
 
+    m_baseTime = -1;
+#ifdef LOG_ENABLE
+    m_logger = new XFrameLogger(this);
+#endif
     //m_busMgr->start();
 
     m_senderThread = new QThread;
@@ -221,27 +228,27 @@ void MainWindow::initTxMessages()
 {
     PeriodMessage pm;
     
-    if (0 == buildPeriodMessageEx(&pm, 0x3C0)) {
+    if (0 == buildPeriodMessageEx(&pm, 0x3C0, m_workingBus)) {
         txMessages.insert(pm.id, pm);
         updateSendingData(pm);
     }
     
-    if (0 == buildPeriodMessageEx(&pm, 0x663)) {
+    if (0 == buildPeriodMessageEx(&pm, 0x663, m_workingBus)) {
         txMessages.insert(pm.id, pm);
         updateSendingData(pm);
     }
 
-    if (0 == buildPeriodMessageEx(&pm, 0x3DA)) {
+    if (0 == buildPeriodMessageEx(&pm, 0x3DA, m_workingBus)) {
         txMessages.insert(pm.id, pm);
         updateSendingData(pm);
     }
 
-    if (0 == buildPeriodMessageEx(&pm, 0x3DB)) {
+    if (0 == buildPeriodMessageEx(&pm, 0x3DB, m_workingBus)) {
         txMessages.insert(pm.id, pm);
         updateSendingData(pm);
     }
 
-    if (0 == buildPeriodMessageEx(&pm, 0x5F0)) {
+    if (0 == buildPeriodMessageEx(&pm, 0x5F0, m_workingBus)) {
         txMessages.insert(pm.id, pm);
         updateSendingData(pm);
     }
