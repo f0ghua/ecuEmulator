@@ -74,9 +74,16 @@ MainWindow::MainWindow(QWidget *parent) :
     cusomizePreference();
 
     m_busMgr = new XBusMgr(this);
-    if ((m_busMgr->getDbcNetwork(0) == NULL) &&
-            (m_busMgr->getDbcNetwork(1) != NULL)) {
-        m_workingBus = 1;
+    if (m_busMgr->getDbcNetwork(0) == NULL) {
+        if (m_busMgr->getDbcNetwork(1) != NULL) {
+            m_workingBus = 1;
+        } else {
+            QMessageBox::warning(NULL,
+                        tr("Warning"),
+                        tr("No DBC file exist. Please put file CAN1.dbc or CAN2.dbc at the same directory as ecuSimulator and restart the application."),
+                        QMessageBox::Cancel,
+                        QMessageBox::Cancel);
+        }
     }
     m_connectDialog = new ConnectDialog(m_busMgr, this);
 
@@ -101,9 +108,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(this, &MainWindow::cmd2Sender, m_sender, &XFrameSender::slotCmdParser);
     connect(this, &MainWindow::setSenderData, m_sender, &XFrameSender::slotChangeData);
     connect(this, &MainWindow::setSenderPriority, m_sender, &XFrameSender::setWorkThreadPriority);
-
     m_senderThread->start();
-    
     emit setSenderPriority();
 
     initTxMessages();
