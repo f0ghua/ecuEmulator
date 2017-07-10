@@ -7,6 +7,7 @@
 #include <QTimer>
 #include <QDebug>
 #include <QDateTime>
+#include <QMessageBox>
 
 //const char *ConnectDialog::selectDev = "Select...";
 const char *ConnectDialog::CONS_disconnect = "Disconnect...";
@@ -95,11 +96,18 @@ void ConnectDialog::handleCmdResponse(const QByteArray &raw)
 
     QString response = frame.handleCmdResponse(XCmdFrame::CMD_CFG_REQSWVER);
     if (!response.isEmpty()) {
-        if (response.contains("Saint")) {
-            Utils::Base::isSaintDevice = true;
-        } else if (response.contains("ICITS")) {
+        if (response.contains("ICITS")) {
             Utils::Base::isSaintDevice = false;
+        } else {
+            // only support ICITS device
+            QMessageBox::warning(NULL,
+                        tr("Warning"),
+                        tr("Failed to connect to ICITS at that interface."),
+                        QMessageBox::Cancel,
+                        QMessageBox::Cancel);
+            on_pbDisconnect_clicked();
         }
+
         ui->m_pteDeviceInfo->appendPlainText(response);
     }
 
