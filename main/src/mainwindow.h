@@ -70,6 +70,7 @@ private slots:
     void on_sbSigDI_KL_58xd_editingFinished();
     void on_slSigDI_KL_58xs_valueChanged(int value);
     void on_sbSigDI_KL_58xs_editingFinished();
+    void on_cbEnable0x585_clicked();
 
 private:
     void cusomizePreference();

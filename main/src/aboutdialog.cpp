@@ -1,7 +1,7 @@
 #include "aboutdialog.h"
 
 #define APP_NAME 	"Tiny ECUSimulator"
-#define APP_VERSION	"0.1.01"
+#define APP_VERSION	"0.1.02"
 
 const QDate g_buildDate = QLocale( QLocale::C ).toDate( QString( __DATE__ ).simplified(), "MMM d yyyy");
 const QTime g_buildTime = QTime::fromString( __TIME__, "hh:mm:ss" );

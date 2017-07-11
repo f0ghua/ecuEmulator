@@ -258,6 +258,15 @@ void MainWindow::initTxMessages()
         txMessages.insert(pm.id, pm);
         updateSendingData(pm);
     }
+
+    if (0 == buildPeriodMessageEx(&pm, 0x585, m_workingBus)) {
+        // all data should be filled with 0 as customer request
+        for (int i = 0; i < pm.data.size(); ++i) {
+            pm.data[i] = 0;
+        }
+        txMessages.insert(pm.id, pm);
+        updateSendingData(pm);
+    }
 }
 
 int MainWindow::updateSignalValue(quint32 id, QString signalName, double phyValue)
@@ -439,8 +448,7 @@ void MainWindow::on_sbSigDI_KL_58xs_editingFinished()
     updateSignalValue(0x5F0, "DI_KL_58xs", phyValue);
 }
 
-
-
-
-
-
+void MainWindow::on_cbEnable0x585_clicked()
+{
+    updateEnableValue(ui->cbEnable0x585, 0x585);
+}

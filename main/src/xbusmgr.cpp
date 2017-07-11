@@ -41,8 +41,8 @@ void XBusMgr::initDevice()
     QTimer::singleShot(50, this, [=](){
         QByteArray raw;
         
-        raw = XCmdFrame::buildCfgCmdTimpStampMode();
-        sendMsgRaw(raw);
+        //raw = XCmdFrame::buildCfgCmdTimpStampMode();
+        //sendMsgRaw(raw);
 
         raw = XCmdFrame::buildCfgCmdGetVersion();
 		sendMsgRaw(raw);
