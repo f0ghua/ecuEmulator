@@ -39,7 +39,7 @@ private:
 	void PhyCloseDevice();
 	void halWrite(QByteArray &);
 	void CreateEvent(HANDLE eh);
-	void PhyOpenDevice(QString tryDev, HANDLE eh);
+	void PhyOpenDevice(QString tryDev, HANDLE &eh);
 	void dealWithEvent();
 	void dealWithRx(int);
 	void listDevice();

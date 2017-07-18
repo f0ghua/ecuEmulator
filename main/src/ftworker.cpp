@@ -51,7 +51,7 @@ FtWorker::FtWorker(XBusMgr *mgr) :HAL(mgr, 1)
 	RxBuffer = (char *)calloc(128 * 1024, 1);
 }
 
-void FtWorker::PhyOpenDevice(QString tryDev, HANDLE eh)
+void FtWorker::PhyOpenDevice(QString tryDev, HANDLE &eh)
 {
 	FT_STATUS ftStatus;
 	DWORD EventDWord, TxBytes, RxBytes, EventMask = FT_EVENT_RXCHAR | FT_EVENT_MODEM_STATUS;
