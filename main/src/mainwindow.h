@@ -75,14 +75,10 @@ private slots:
 	void on_pushButton_Up_pressed();
 	void on_pushButton_Down_pressed();
 	void on_pushButton_Volume_Down_pressed();
-	void on_pushButton_Arrow_A_Up_Right_pressed();
-	
+	void on_pushButton_Arrow_A_Up_Right_pressed();	
 	void on_pushButton_Arrow_A_Down_Left_pressed();
-
     void on_pushButton_Mute_pressed();
-	
     void on_pushButton_released();
-
     void on_cbEnable0x5bf_clicked();
 
 private:
@@ -107,7 +103,6 @@ private:
     DeviceConfig *m_configDialog = NULL;
     AboutDialog *m_aboutDialog = NULL;
     qint64 m_baseTime = -1;
-    QString Signal_0x5BF = "MFL_Tastencode_1";
     QMap<quint32, PeriodMessage> txMessages;
 
 };

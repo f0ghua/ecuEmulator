@@ -20,6 +20,7 @@
 static const char g_logFileName[] = "./log.bf";
 static const int g_logFileMaxSize = 1024*1024;
 static const int g_logFileMaxBkpNumber = 2;
+static const char *g_signal_0x5BF= "MFL_Tastencode_1";
 
 MainWindow *MainWindow::m_selfRef = NULL;
 
@@ -47,7 +48,7 @@ void MainWindow::cusomizePreference()
 
 
     // set the window size
-    int h = availableGeometry.height() * 2 / 4;
+    int h = availableGeometry.height() * 2 / 3;
     int w = h * 850 / 600;
     resize(w, h);
     setIconSize(QSize(16, 16));
@@ -113,13 +114,13 @@ MainWindow::MainWindow(QWidget *parent) :
 
     initTxMessages();
 
-    connect(ui->pushButton_Arrow_A_Down_Left, SIGNAL(released()), this, SLOT(on_pushButton_released()));
-    connect(ui->pushButton_Arrow_A_Up_Right, SIGNAL(released()), this, SLOT(on_pushButton_released()));
-    connect(ui->pushButton_Up, SIGNAL(released()), this, SLOT(on_pushButton_released()));
-    connect(ui->pushButton_Down, SIGNAL(released()), this, SLOT(on_pushButton_released()));
-    connect(ui->pushButton_Volume_Down, SIGNAL(released()), this, SLOT(on_pushButton_released()));
-    connect(ui->pushButton_Volume_Up, SIGNAL(released()), this, SLOT(on_pushButton_released()));
-    connect(ui->pushButton_Mute, SIGNAL(released()), this, SLOT(on_pushButton_released()));
+    connect(ui->pushButton_Arrow_A_Down_Left, &QPushButton::released, this, &MainWindow::on_pushButton_released);
+    connect(ui->pushButton_Arrow_A_Up_Right, &QPushButton::released, this, &MainWindow::on_pushButton_released);
+    connect(ui->pushButton_Up, &QPushButton::released, this, &MainWindow::on_pushButton_released);
+    connect(ui->pushButton_Down, &QPushButton::released, this, &MainWindow::on_pushButton_released);
+    connect(ui->pushButton_Volume_Down, &QPushButton::released, this, &MainWindow::on_pushButton_released);
+    connect(ui->pushButton_Volume_Up, &QPushButton::released, this, &MainWindow::on_pushButton_released);
+    connect(ui->pushButton_Mute, &QPushButton::released, this, &MainWindow::on_pushButton_released);
 /*
     emit cmd2Sender("en@1#id@0x061#bus@0#data@00112233#tr@1000ms");
     emit cmd2Sender("en@1#id@0x062#bus@0#data@00112233#tr@100ms#mo@D0=D0^0x01");
@@ -473,19 +474,19 @@ void MainWindow::on_cbEnable0x5bf_clicked()
 void MainWindow::on_pushButton_Volume_Up_pressed()
 {
     double phyValue = 16;
-    updateSignalValue(0x5BF, Signal_0x5BF, phyValue);
+    updateSignalValue(0x5BF, g_signal_0x5BF, phyValue);
 }
 
 void MainWindow::on_pushButton_Up_pressed()
 {
     double phyValue = 4;
-    updateSignalValue(0x5BF, Signal_0x5BF, phyValue);
+    updateSignalValue(0x5BF, g_signal_0x5BF, phyValue);
 }
 
 void MainWindow::on_pushButton_Down_pressed()
 {
     double phyValue = 5;
-    updateSignalValue(0x5BF, Signal_0x5BF, phyValue);
+    updateSignalValue(0x5BF, g_signal_0x5BF, phyValue);
 }
 
 
@@ -494,31 +495,31 @@ void MainWindow::on_pushButton_Volume_Down_pressed()
 {
     double phyValue = 17;
 
-    updateSignalValue(0x5BF, Signal_0x5BF, phyValue);
+    updateSignalValue(0x5BF, g_signal_0x5BF, phyValue);
 }
 
 void MainWindow::on_pushButton_Arrow_A_Up_Right_pressed()
 {
     double phyValue = 21;
 
-    updateSignalValue(0x5BF, Signal_0x5BF, phyValue);
+    updateSignalValue(0x5BF, g_signal_0x5BF, phyValue);
 }
 
 void MainWindow::on_pushButton_Arrow_A_Down_Left_pressed()
 {
     double phyValue = 22;
 
-    updateSignalValue(0x5BF, Signal_0x5BF, phyValue);
+    updateSignalValue(0x5BF, g_signal_0x5BF, phyValue);
 }
 
 void MainWindow::on_pushButton_Mute_pressed()
 {
     double phyValue = 32;
-    updateSignalValue(0x5BF, Signal_0x5BF, phyValue);
+    updateSignalValue(0x5BF, g_signal_0x5BF, phyValue);
 }
 
 void MainWindow::on_pushButton_released()
 {
     double phyValue = 0;
-    updateSignalValue(0x5BF, Signal_0x5BF, phyValue);
+    updateSignalValue(0x5BF, g_signal_0x5BF, phyValue);
 }
