@@ -78,16 +78,10 @@ private slots:
 	void on_pushButton_Arrow_A_Up_Right_pressed();
 	
 	void on_pushButton_Arrow_A_Down_Left_pressed();
+
+    void on_pushButton_Mute_pressed();
 	
-	void on_pushButton_Mute_pressed();
-	void on_pushButton_Up_released();
-	void on_pushButton_Down_released();
-	void on_pushButton_Volume_Up_released();
-	void on_pushButton_Volume_Down_released();
-	void on_pushButton_Arrow_A_Up_Right_released();
-	void on_pushButton_Arrow_A_Down_Left_released();
-	void on_pushButton_Mute_released();
-	
+    void on_pushButton_released();
 
     void on_cbEnable0x5bf_clicked();
 

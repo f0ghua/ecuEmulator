@@ -21,6 +21,7 @@ QCheckBox#cbEnable0x663::indicator,
 QCheckBox#cbEnable0x3DB::indicator, 
 QCheckBox#cbEnable0x3DA::indicator,
 QCheckBox#cbEnable0x585::indicator,
+QCheckBox#cbEnable0x5bf::indicator,
 QCheckBox#cbEnable0x5F0::indicator 
 { 
     width: 50px; /* 26 */
@@ -32,6 +33,7 @@ QCheckBox#cbEnable0x663::indicator::unchecked,
 QCheckBox#cbEnable0x3DB::indicator::unchecked, 
 QCheckBox#cbEnable0x3DA::indicator::unchecked,
 QCheckBox#cbEnable0x585::indicator::unchecked,
+QCheckBox#cbEnable0x5bf::indicator::unchecked,
 QCheckBox#cbEnable0x5F0::indicator::unchecked
 {   
     image: url(:/images/cbUnchecked.png);
@@ -42,6 +44,7 @@ QCheckBox#cbEnable0x663::indicator::checked,
 QCheckBox#cbEnable0x3DB::indicator::checked, 
 QCheckBox#cbEnable0x3DA::indicator::checked,
 QCheckBox#cbEnable0x585::indicator::checked,
+QCheckBox#cbEnable0x5bf::indicator::checked,
 QCheckBox#cbEnable0x5F0::indicator::checked
 { 
     image: url(:/images/cbChecked.png);

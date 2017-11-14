@@ -113,6 +113,13 @@ MainWindow::MainWindow(QWidget *parent) :
 
     initTxMessages();
 
+    connect(ui->pushButton_Arrow_A_Down_Left, SIGNAL(released()), this, SLOT(on_pushButton_released()));
+    connect(ui->pushButton_Arrow_A_Up_Right, SIGNAL(released()), this, SLOT(on_pushButton_released()));
+    connect(ui->pushButton_Up, SIGNAL(released()), this, SLOT(on_pushButton_released()));
+    connect(ui->pushButton_Down, SIGNAL(released()), this, SLOT(on_pushButton_released()));
+    connect(ui->pushButton_Volume_Down, SIGNAL(released()), this, SLOT(on_pushButton_released()));
+    connect(ui->pushButton_Volume_Up, SIGNAL(released()), this, SLOT(on_pushButton_released()));
+    connect(ui->pushButton_Mute, SIGNAL(released()), this, SLOT(on_pushButton_released()));
 /*
     emit cmd2Sender("en@1#id@0x061#bus@0#data@00112233#tr@1000ms");
     emit cmd2Sender("en@1#id@0x062#bus@0#data@00112233#tr@100ms#mo@D0=D0^0x01");
@@ -465,38 +472,19 @@ void MainWindow::on_cbEnable0x5bf_clicked()
 
 void MainWindow::on_pushButton_Volume_Up_pressed()
 {
-    double phyValue = 0;
-    if (ui->pushButton_Volume_Up->isDown()) {
-        phyValue = 16;
-    } else {
-        phyValue = 0;
-    }
-
+    double phyValue = 16;
     updateSignalValue(0x5BF, Signal_0x5BF, phyValue);
 }
 
 void MainWindow::on_pushButton_Up_pressed()
 {
-    double phyValue = 0;
-    if (ui->pushButton_Up->isDown()) {
-        phyValue = 4;
-        qDebug() << "is Down value has been update\n";
-    } else {
-        phyValue = 0;
-    }
-    qDebug() << "value has been update\n";
+    double phyValue = 4;
     updateSignalValue(0x5BF, Signal_0x5BF, phyValue);
 }
 
 void MainWindow::on_pushButton_Down_pressed()
 {
-    double phyValue = 0;
-    if (ui->pushButton_Down->isDown()) {
-        phyValue = 5;
-    } else {
-        phyValue = 0;
-    }
-
+    double phyValue = 5;
     updateSignalValue(0x5BF, Signal_0x5BF, phyValue);
 }
 
@@ -504,12 +492,7 @@ void MainWindow::on_pushButton_Down_pressed()
 
 void MainWindow::on_pushButton_Volume_Down_pressed()
 {
-    double phyValue = 0;
-    if (ui->pushButton_Volume_Down->isDown()) {
-        phyValue = 17;
-    } else {
-        phyValue = 0;
-    }
+    double phyValue = 17;
 
     updateSignalValue(0x5BF, Signal_0x5BF, phyValue);
 }
@@ -530,53 +513,11 @@ void MainWindow::on_pushButton_Arrow_A_Down_Left_pressed()
 
 void MainWindow::on_pushButton_Mute_pressed()
 {
-    double phyValue = 0;
-    if (ui->pushButton_Mute->isDown()) {
-        phyValue = 32;
-    } else {
-        phyValue = 0;
-    }
-
+    double phyValue = 32;
     updateSignalValue(0x5BF, Signal_0x5BF, phyValue);
 }
 
-void MainWindow::on_pushButton_Up_released()
-{
-    double phyValue = 0;
-    updateSignalValue(0x5BF, Signal_0x5BF, phyValue);
-}
-
-void MainWindow::on_pushButton_Down_released()
-{
-    double phyValue = 0;
-    updateSignalValue(0x5BF, Signal_0x5BF, phyValue);
-}
-
-void MainWindow::on_pushButton_Volume_Up_released()
-{
-    double phyValue = 0;
-    updateSignalValue(0x5BF, Signal_0x5BF, phyValue);
-}
-
-void MainWindow::on_pushButton_Volume_Down_released()
-{
-    double phyValue = 0;
-    updateSignalValue(0x5BF, Signal_0x5BF, phyValue);
-}
-
-void MainWindow::on_pushButton_Arrow_A_Up_Right_released()
-{
-    double phyValue = 0;
-    updateSignalValue(0x5BF, Signal_0x5BF, phyValue);
-}
-
-void MainWindow::on_pushButton_Arrow_A_Down_Left_released()
-{
-    double phyValue = 0;
-    updateSignalValue(0x5BF, Signal_0x5BF, phyValue);
-}
-
-void MainWindow::on_pushButton_Mute_released()
+void MainWindow::on_pushButton_released()
 {
     double phyValue = 0;
     updateSignalValue(0x5BF, Signal_0x5BF, phyValue);
