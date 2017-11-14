@@ -9,5 +9,19 @@
         <file>images/rbUnchecked.png</file>
         <file>ecuSimulator.qss</file>
         <file>images/ecuSimulator.png</file>
+        <file>images/png-v3/button-upright-pressed.png</file>
+        <file>images/png-v3/button-downleft-pressed.png</file>
+        <file>images/png-v3/button-downleft-release.png</file>
+        <file>images/png-v3/button-mute-pressed.png</file>
+        <file>images/png-v3/button-mute-release.png</file>
+        <file>images/png-v3/button-up-pressed.png</file>
+        <file>images/png-v3/button-up-release.png</file>
+        <file>images/png-v3/button-upright-release.png</file>
+        <file>images/png-v3/button-volumndown-pressed.png</file>
+        <file>images/png-v3/button-volumnup-pressed.png</file>
+        <file>images/png-v3/button-volumnup-release.png</file>
+        <file>images/png-v3/button-down-pressed.png</file>
+        <file>images/png-v3/button-down-release.png</file>
+        <file>images/png-v3/button-volumndown-release.png</file>
     </qresource>
 </RCC>

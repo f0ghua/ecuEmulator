@@ -71,6 +71,25 @@ private slots:
     void on_slSigDI_KL_58xs_valueChanged(int value);
     void on_sbSigDI_KL_58xs_editingFinished();
     void on_cbEnable0x585_clicked();
+	void on_pushButton_Volume_Up_pressed();
+	void on_pushButton_Up_pressed();
+	void on_pushButton_Down_pressed();
+	void on_pushButton_Volume_Down_pressed();
+	void on_pushButton_Arrow_A_Up_Right_pressed();
+	
+	void on_pushButton_Arrow_A_Down_Left_pressed();
+	
+	void on_pushButton_Mute_pressed();
+	void on_pushButton_Up_released();
+	void on_pushButton_Down_released();
+	void on_pushButton_Volume_Up_released();
+	void on_pushButton_Volume_Down_released();
+	void on_pushButton_Arrow_A_Up_Right_released();
+	void on_pushButton_Arrow_A_Down_Left_released();
+	void on_pushButton_Mute_released();
+	
+
+    void on_cbEnable0x5bf_clicked();
 
 private:
     void cusomizePreference();
@@ -94,6 +113,7 @@ private:
     DeviceConfig *m_configDialog = NULL;
     AboutDialog *m_aboutDialog = NULL;
     qint64 m_baseTime = -1;
+    QString Signal_0x5BF = "MFL_Tastencode_1";
     QMap<quint32, PeriodMessage> txMessages;
 
 };

@@ -17,12 +17,12 @@ top_srcdir = $$PWD
 top_builddir = $$shadowed($$PWD)
 
 # auto touch aboutdialog to update release datetime
-versionTarget.target = extra
-versionTarget.depends = FORCE
-win32: versionTarget.commands = touch.exe $$top_srcdir/src/aboutdialog.cpp
-else:  versionTarget.commands = touch $$top_srcdir/src/aboutdialog.cpp
-PRE_TARGETDEPS += extra
-QMAKE_EXTRA_TARGETS += versionTarget
+#versionTarget.target = extra
+#versionTarget.depends = FORCE
+#win32: versionTarget.commands = touch.exe $$top_srcdir/src/aboutdialog.cpp
+#else:  versionTarget.commands = touch $$top_srcdir/src/aboutdialog.cpp
+#PRE_TARGETDEPS += extra
+#QMAKE_EXTRA_TARGETS += versionTarget
 
 CONFIG(release, debug|release): {
     DEFINES += F_NO_DEBUG

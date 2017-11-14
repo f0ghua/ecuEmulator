@@ -267,6 +267,11 @@ void MainWindow::initTxMessages()
         txMessages.insert(pm.id, pm);
         updateSendingData(pm);
     }
+
+	if (0 == buildPeriodMessageEx(&pm, 0x5BF, m_workingBus)) {
+        txMessages.insert(pm.id, pm);
+        updateSendingData(pm);
+    }
 }
 
 int MainWindow::updateSignalValue(quint32 id, QString signalName, double phyValue)
@@ -451,4 +456,128 @@ void MainWindow::on_sbSigDI_KL_58xs_editingFinished()
 void MainWindow::on_cbEnable0x585_clicked()
 {
     updateEnableValue(ui->cbEnable0x585, 0x585);
+}
+
+void MainWindow::on_cbEnable0x5bf_clicked()
+{
+    updateEnableValue(ui->cbEnable0x5bf, 0x5BF);
+}
+
+void MainWindow::on_pushButton_Volume_Up_pressed()
+{
+    double phyValue = 0;
+    if (ui->pushButton_Volume_Up->isDown()) {
+        phyValue = 16;
+    } else {
+        phyValue = 0;
+    }
+
+    updateSignalValue(0x5BF, Signal_0x5BF, phyValue);
+}
+
+void MainWindow::on_pushButton_Up_pressed()
+{
+    double phyValue = 0;
+    if (ui->pushButton_Up->isDown()) {
+        phyValue = 4;
+        qDebug() << "is Down value has been update\n";
+    } else {
+        phyValue = 0;
+    }
+    qDebug() << "value has been update\n";
+    updateSignalValue(0x5BF, Signal_0x5BF, phyValue);
+}
+
+void MainWindow::on_pushButton_Down_pressed()
+{
+    double phyValue = 0;
+    if (ui->pushButton_Down->isDown()) {
+        phyValue = 5;
+    } else {
+        phyValue = 0;
+    }
+
+    updateSignalValue(0x5BF, Signal_0x5BF, phyValue);
+}
+
+
+
+void MainWindow::on_pushButton_Volume_Down_pressed()
+{
+    double phyValue = 0;
+    if (ui->pushButton_Volume_Down->isDown()) {
+        phyValue = 17;
+    } else {
+        phyValue = 0;
+    }
+
+    updateSignalValue(0x5BF, Signal_0x5BF, phyValue);
+}
+
+void MainWindow::on_pushButton_Arrow_A_Up_Right_pressed()
+{
+    double phyValue = 21;
+
+    updateSignalValue(0x5BF, Signal_0x5BF, phyValue);
+}
+
+void MainWindow::on_pushButton_Arrow_A_Down_Left_pressed()
+{
+    double phyValue = 22;
+
+    updateSignalValue(0x5BF, Signal_0x5BF, phyValue);
+}
+
+void MainWindow::on_pushButton_Mute_pressed()
+{
+    double phyValue = 0;
+    if (ui->pushButton_Mute->isDown()) {
+        phyValue = 32;
+    } else {
+        phyValue = 0;
+    }
+
+    updateSignalValue(0x5BF, Signal_0x5BF, phyValue);
+}
+
+void MainWindow::on_pushButton_Up_released()
+{
+    double phyValue = 0;
+    updateSignalValue(0x5BF, Signal_0x5BF, phyValue);
+}
+
+void MainWindow::on_pushButton_Down_released()
+{
+    double phyValue = 0;
+    updateSignalValue(0x5BF, Signal_0x5BF, phyValue);
+}
+
+void MainWindow::on_pushButton_Volume_Up_released()
+{
+    double phyValue = 0;
+    updateSignalValue(0x5BF, Signal_0x5BF, phyValue);
+}
+
+void MainWindow::on_pushButton_Volume_Down_released()
+{
+    double phyValue = 0;
+    updateSignalValue(0x5BF, Signal_0x5BF, phyValue);
+}
+
+void MainWindow::on_pushButton_Arrow_A_Up_Right_released()
+{
+    double phyValue = 0;
+    updateSignalValue(0x5BF, Signal_0x5BF, phyValue);
+}
+
+void MainWindow::on_pushButton_Arrow_A_Down_Left_released()
+{
+    double phyValue = 0;
+    updateSignalValue(0x5BF, Signal_0x5BF, phyValue);
+}
+
+void MainWindow::on_pushButton_Mute_released()
+{
+    double phyValue = 0;
+    updateSignalValue(0x5BF, Signal_0x5BF, phyValue);
 }
